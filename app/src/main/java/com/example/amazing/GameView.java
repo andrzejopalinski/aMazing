@@ -16,11 +16,11 @@ import java.util.Stack;
 
 public class GameView extends View {
     private Cell[][] cells;
-    private Cell player,exit;
+    private Cell player, exit;
     private static final int COLS = 7, ROWS = 10;
-    private static final float Wall_Thickness = 4;
+    private static final float Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
-    private Paint wallPaint,playerPaint, exitPaint;
+    private Paint wallPaint, playerPaint, exitPaint;
     private Random random;
 
     public GameView(Context context) {
@@ -29,7 +29,7 @@ public class GameView extends View {
         wallPaint = new Paint();
         playerPaint = new Paint();
         playerPaint.setColor(Color.BLUE);
-        exitPaint  = new Paint();
+        exitPaint = new Paint();
         exitPaint.setColor(Color.GREEN);
 
         wallPaint.setColor(Color.BLACK);
@@ -50,44 +50,44 @@ public class GameView extends View {
                 neighbours.add(cells[cell.col - 1][cell.row]);
 
         //right cell
-        if (cell.col < COLS-1)
-            if (!cells[cell.col +1][cell.row].visited)
+        if (cell.col < COLS - 1)
+            if (!cells[cell.col + 1][cell.row].visited)
                 neighbours.add(cells[cell.col + 1][cell.row]);
 
         //top cell
         if (cell.row > 0)
             if (!cells[cell.col][cell.row - 1].visited)
-                neighbours.add(cells[cell.col][cell.row-1]);
+                neighbours.add(cells[cell.col][cell.row - 1]);
 
         //bottom cell
         if (cell.row < ROWS - 1)
             if (!cells[cell.col][cell.row + 1].visited)
-                neighbours.add(cells[cell.col][cell.row+1]);
+                neighbours.add(cells[cell.col][cell.row + 1]);
 
-        if(neighbours.size() > 0) {
+        if (neighbours.size() > 0) {
             int index = random.nextInt(neighbours.size());
             return neighbours.get(index);
         }
         return null;
     }
 
-    private void removeWall(Cell current, Cell next){
-        if (current.col == next.col && current.row == next.row+1){
+    private void removeWall(Cell current, Cell next) {
+        if (current.col == next.col && current.row == next.row + 1) {
             current.topWall = false;
             next.bottomWall = false;
         }
 
-        if (current.col == next.col && current.row == next.row-1){
+        if (current.col == next.col && current.row == next.row - 1) {
             current.bottomWall = false;
             next.topWall = false;
         }
 
-        if (current.col == next.col+1 && current.row == next.row){
+        if (current.col == next.col + 1 && current.row == next.row) {
             current.leftWall = false;
             next.rightWall = false;
         }
 
-        if (current.col == next.col-1 && current.row == next.row){
+        if (current.col == next.col - 1 && current.row == next.row) {
             current.rightWall = false;
             next.leftWall = false;
         }
@@ -105,8 +105,8 @@ public class GameView extends View {
             }
         }
 
-        player = cells[0][0];
-        exit = cells[COLS-1][ROWS-1];
+        player = cells[2][0];
+        exit = cells[COLS - 1][ROWS - 1];
 
         current = cells[0][0];
         current.visited = true;
@@ -134,8 +134,8 @@ public class GameView extends View {
         else
             cellSize = height / (ROWS + 1);
 
-        hMargin = (width - COLS * cellSize) / 2;
-        vMargin = (height - ROWS * cellSize) / 2;
+        hMargin = (width - (COLS * cellSize)) / 2;
+        vMargin = (height - (ROWS * cellSize)) / 2;
 
         canvas.translate(hMargin, vMargin);
 
@@ -176,20 +176,18 @@ public class GameView extends View {
             }
         }
 
-        float margin = cellSize/10;
-
-        canvas.drawCircle(
-                player.col*cellSize+margin,
-                player.row*cellSize+margin,
-                (player.col+1)*cellSize-margin,
+        float margin = cellSize / 10;
+        canvas.drawCircle(player.col * (cellSize/2),
+                player.row * (cellSize/2),
+                cellSize/2 - (margin),
                 playerPaint);
 
         canvas.drawRect(
-                exit.col*cellSize+margin,
-                exit.row*cellSize+margin,
-                (exit.col+1)*cellSize-margin,
-                (exit.row+1)*cellSize-margin,
-                playerPaint);
+                exit.col * cellSize + margin,
+                exit.row * cellSize + margin,
+                (exit.col + 1) * cellSize - margin,
+                (exit.row + 1) * cellSize - margin,
+                exitPaint);
     }
 
    /* @Override
