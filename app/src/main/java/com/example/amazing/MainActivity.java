@@ -10,6 +10,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameView gameView = new GameView(this);
-        setContentView(R.layout.activity_main);
+        setContentView(gameView);
     }
 }

@@ -123,16 +123,20 @@ public class GameView extends View {
         } while (!stack.empty());
     }
 
+    private int width;
+    private int height;
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        width = w;
+        height = h;
+    }
+
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.YELLOW);
 
-        int width = getWidth();
-        int height = getHeight();
-
-        if (width / height < COLS / ROWS)
-            cellSize = width / (COLS + 1);
-        else
-            cellSize = height / (ROWS + 1);
+        cellSize = height / (ROWS+5);
 
         hMargin = (width - COLS * cellSize) / 2;
         vMargin = (height - ROWS * cellSize) / 2;
