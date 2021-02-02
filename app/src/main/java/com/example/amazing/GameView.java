@@ -142,8 +142,8 @@ public class GameView extends View {
             cellSize = height / (ROWS + 5);
         }
 
-        hMargin = (width - (COLS * (height / (ROWS+5)))) / 2;
-        vMargin = (height - (ROWS * (height / (ROWS+5)))) / 2;
+        hMargin = (width - (COLS * (height / (ROWS+4)))) / 2;
+        vMargin = (height - (ROWS * (height / (ROWS+4)))) / 2;
 
         canvas.translate(hMargin, vMargin);
 
