@@ -17,7 +17,7 @@ import java.util.Stack;
 public class GameView extends View {
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 7, ROWS = 10;
+    private static final int COLS = 10, ROWS = 15;
     private static final float Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, playerPaint, exitPaint;
@@ -136,10 +136,14 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.YELLOW);
 
-        cellSize = height / (ROWS+5);
+        if(width / height < COLS / ROWS){
+            cellSize = width / (COLS + 1);
+        }else {
+            cellSize = height / (ROWS + 5);
+        }
 
-        hMargin = (width - (COLS * cellSize)) / 2;
-        vMargin = (height - (ROWS * cellSize)) / 2;
+        hMargin = (width - (COLS * (height / (ROWS+5)))) / 2;
+        vMargin = (height - (ROWS * (height / (ROWS+5)))) / 2;
 
         canvas.translate(hMargin, vMargin);
 
