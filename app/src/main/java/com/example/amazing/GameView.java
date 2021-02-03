@@ -110,7 +110,7 @@ public class GameView extends View {
             }
         }
 
-        player = cells[2][0];
+        player = cells[0][0];
         exit = cells[COLS - 1][ROWS - 1];
 
         current = cells[0][0];
@@ -190,9 +190,17 @@ public class GameView extends View {
         }
 
         float margin = cellSize / 10;
-        canvas.drawCircle(player.col + (cellSize / 2),
+
+        /*canvas.drawCircle(player.col + (cellSize / 2),
                 player.row + (cellSize / 2),
                 cellSize / 2 - (margin),
+                playerPaint);*/
+
+        canvas.drawRect(
+                player.col * cellSize + margin,
+                player.row * cellSize + margin,
+                (player.col + 1) * cellSize - margin,
+                (player.row + 1) * cellSize - margin,
                 playerPaint);
 
         canvas.drawRect(
@@ -239,8 +247,11 @@ public class GameView extends View {
             float x = event.getX();
             float y = event.getY();
 
-            float playerCenterX = player.col + (cellSize / 2);
-            float playerCenterY = player.row + (cellSize / 2);
+            /*float playerCenterX = player.col + (cellSize / 2);
+            float playerCenterY = player.row + (cellSize / 2);*/
+
+            float playerCenterX = hMargin + (player.col + 0.5f) * cellSize;
+            float playerCenterY = vMargin + (player.row + 0.5f) * cellSize;
 
             float dx = x - playerCenterX;
             float dy = y - playerCenterY;
