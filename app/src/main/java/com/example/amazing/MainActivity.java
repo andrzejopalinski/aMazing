@@ -8,19 +8,23 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity {
 
+/*
     private SensorManager sensorManager;
+    public int x;
+    public int y;
+*/
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GameView gameView = new GameView(this);
         setContentView(gameView);
-
+/*
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);*/
     }
-
+/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -45,4 +49,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
+    public void onSensorEvent(SensorEvent event) {
+
+        x = x - (int) event.values[0];
+        y = y + (int) event.values[1];
+    }*/
 }

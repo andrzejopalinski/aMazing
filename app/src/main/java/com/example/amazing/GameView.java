@@ -14,33 +14,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
-public class GameView extends View implements SensorEventListener {
+public class GameView extends View {
 
-    public void onSensorEvent(SensorEvent event) {
-        float x = 0;
-        float y = 0;
-        x = event.values[0];
-        y = event.values[1];
-
-        if (x < 5 && x > -5 && y > 0)
-            movePlayer(Direction.DOWN);
-        if (x < 5 && x > -5 && y < 0)
-            movePlayer(Direction.UP);
-        if (y < 5 && y > -5 && x > 0)
-            movePlayer(Direction.LEFT);
-        if (y < 5 && y > -5 && x < 0)
-            movePlayer(Direction.RIGHT);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
 
     private enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -301,6 +276,22 @@ public class GameView extends View implements SensorEventListener {
         }
         return super.onTouchEvent(event);
     }
+
+    /*public void onSensorEvent(SensorEvent event) {
+        float x = 0;
+        float y = 0;
+        x = event.values[0];
+        y = event.values[1];
+
+        if (x < 5 && x > -5 && y > 0)
+            movePlayer(Direction.DOWN);
+        if (x < 5 && x > -5 && y < 0)
+            movePlayer(Direction.UP);
+        if (y < 5 && y > -5 && x > 0)
+            movePlayer(Direction.LEFT);
+        if (y < 5 && y > -5 && x < 0)
+            movePlayer(Direction.RIGHT);
+    }*/
 
     private class Cell {
         boolean
