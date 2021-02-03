@@ -4,17 +4,43 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.view.MotionEvent;
 import android.view.View;
-
-import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
-public class GameView extends View {
+public class GameView extends View implements SensorEventListener {
+
+    public void onSensorEvent(SensorEvent event) {
+        int x = 0;
+        int y = 0;
+        x = x - (int) event.values[0];
+        y = y + (int) event.values[1];
+
+        if (x < 5 && x > -5 && y > 0)
+            movePlayer(Direction.DOWN);
+        if (x < 5 && x > -5 && y < 0)
+            movePlayer(Direction.UP);
+        if (y < 5 && y > -5 && x > 0)
+            movePlayer(Direction.LEFT);
+        if (y < 5 && y > -5 && x < 0)
+            movePlayer(Direction.RIGHT);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 
     private enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -27,6 +53,8 @@ public class GameView extends View {
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, playerPaint, exitPaint;
     private Random random;
+
+
 
     public GameView(Context context) {
         super(context);
@@ -246,9 +274,6 @@ public class GameView extends View {
 
             float x = event.getX();
             float y = event.getY();
-
-            /*float playerCenterX = player.col + (cellSize / 2);
-            float playerCenterY = player.row + (cellSize / 2);*/
 
             float playerCenterX = hMargin + (player.col + 0.5f) * cellSize;
             float playerCenterY = vMargin + (player.row + 0.5f) * cellSize;
