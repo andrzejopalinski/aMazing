@@ -17,10 +17,10 @@ import java.util.Stack;
 public class GameView extends View implements SensorEventListener {
 
     public void onSensorEvent(SensorEvent event) {
-        int x = 0;
-        int y = 0;
-        x = x - (int) event.values[0];
-        y = y + (int) event.values[1];
+        float x = 0;
+        float y = 0;
+        x = event.values[0];
+        y = event.values[1];
 
         if (x < 5 && x > -5 && y > 0)
             movePlayer(Direction.DOWN);
