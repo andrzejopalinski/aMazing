@@ -222,17 +222,19 @@ public class GameView extends View {
                     player = cells[player.col + 1][player.row];
                 break;
         }
+        checkExit();
         invalidate();
     }
 
- /*   private void checkExit(){
-
+    private void checkExit() {
+        if (player == exit)
+            createMaze();
     }
-*/
+
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             return true;
-        if (event.getAction() == MotionEvent.ACTION_MOVE){
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
             float x = event.getX();
             float y = event.getY();
@@ -260,7 +262,7 @@ public class GameView extends View {
                 }
             }
             return true;
-            }
+        }
         return super.onTouchEvent(event);
     }
 
