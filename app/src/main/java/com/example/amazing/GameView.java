@@ -22,7 +22,7 @@ public class GameView extends View {
 
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 5, ROWS = 8;
+    private static final int COLS = 3, ROWS = 5;
     private static final float Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, playerPaint, exitPaint;
