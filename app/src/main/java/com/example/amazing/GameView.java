@@ -15,9 +15,14 @@ import java.util.Random;
 import java.util.Stack;
 
 public class GameView extends View {
+
+    private enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
+
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 10, ROWS = 15;
+    private static final int COLS = 5, ROWS = 8;
     private static final float Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, playerPaint, exitPaint;
@@ -136,14 +141,14 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.YELLOW);
 
-        if(width / height < COLS / ROWS){
+        if (width / height < COLS / ROWS) {
             cellSize = width / (COLS + 1);
-        }else {
-            cellSize = height / (ROWS + 5);
+        } else {
+            cellSize = height / (ROWS + 4);
         }
 
-        hMargin = (width - (COLS * (height / (ROWS+4)))) / 2;
-        vMargin = (height - (ROWS * (height / (ROWS+4)))) / 2;
+        hMargin = (width - (COLS * (height / (ROWS + 4)))) / 2;
+        vMargin = (height - (ROWS * (height / (ROWS + 4)))) / 2;
 
         canvas.translate(hMargin, vMargin);
 
@@ -185,9 +190,9 @@ public class GameView extends View {
         }
 
         float margin = cellSize / 10;
-        canvas.drawCircle(player.col + (cellSize/2),
-                player.row + (cellSize/2),
-                cellSize/2 - (margin),
+        canvas.drawCircle(player.col + (cellSize / 2),
+                player.row + (cellSize / 2),
+                cellSize / 2 - (margin),
                 playerPaint);
 
         canvas.drawRect(
@@ -198,12 +203,66 @@ public class GameView extends View {
                 exitPaint);
     }
 
-   /* @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    private void movePlayer(Direction direction) {
+        switch (direction) {
+            case UP:
+                if (!player.topWall)
+                    player = cells[player.col][player.row - 1];
+                break;
+            case DOWN:
+                if (!player.bottomWall)
+                    player = cells[player.col][player.row + 1];
+                break;
+            case LEFT:
+                if (!player.leftWall)
+                    player = cells[player.col - 1][player.row];
+                break;
+            case RIGHT:
+                if (!player.rightWall)
+                    player = cells[player.col + 1][player.row];
+                break;
+        }
+        invalidate();
+    }
 
-        if(event.getAction() == MotionEvent.ACTION_MOVE)
+ /*   private void checkExit(){
+
+    }
+*/
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+            return true;
+        if (event.getAction() == MotionEvent.ACTION_MOVE){
+
+            float x = event.getX();
+            float y = event.getY();
+
+            float playerCenterX = player.col + (cellSize / 2);
+            float playerCenterY = player.row + (cellSize / 2);
+
+            float dx = x - playerCenterX;
+            float dy = y - playerCenterY;
+
+            float absDx = Math.abs(dx);
+            float absDy = Math.abs(dy);
+
+            if (absDx > cellSize || absDy > cellSize) {
+                if (absDx > absDy) { //move in x dir
+                    if (dx > 0) //right side
+                        movePlayer(Direction.RIGHT);
+                    else //left side
+                        movePlayer(Direction.LEFT);
+                } else { //move in y dir
+                    if (dx > 0) //downside
+                        movePlayer(Direction.DOWN);
+                    else // upside
+                        movePlayer(Direction.UP);
+                }
+            }
+            return true;
+            }
         return super.onTouchEvent(event);
-    }*/
+    }
 
     private class Cell {
         boolean
