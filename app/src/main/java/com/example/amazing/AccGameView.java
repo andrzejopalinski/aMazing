@@ -17,7 +17,7 @@ public class AccGameView extends View {
     private Cell[][] cells;
     private Cell player, exit;
     private static final int COLS = 5, ROWS = 10;
-    private static final float Wall_Thickness = 5;
+    private static final int Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, exitPaint;
     private Random random;
@@ -148,8 +148,8 @@ public class AccGameView extends View {
         player.col = player.col - (int) event.values[0];
         player.row = player.row + (int) event.values[1];
 
-        if(player.col <= radius){
-            player.col = radius;
+        if(player.col <= cells[0][0].col + radius + Wall_Thickness){
+            player.col = cells[0][0].col + radius + Wall_Thickness;
         }
         if(player.col >= width - radius){
             player.col = width - radius;
@@ -160,6 +160,17 @@ public class AccGameView extends View {
         }
         if(player.row >= height - radius){
             player.row = height - radius;
+        }
+
+        for (int x = 0; x < COLS; x++) {
+            for (int y = 0; y < ROWS; y++) {
+                if(player.col == cells[x][y].col - radius){
+                    player.col = cells[x][y].col - radius;
+                }
+                if(player.row == cells[x][y].row - radius){
+                    player.row = cells[x][y].row - radius;
+                }
+            }
         }
     }
 
@@ -219,7 +230,19 @@ public class AccGameView extends View {
 
 
         canvas.drawCircle(player.col + (cellSize/2), player.row + (cellSize/2), radius, ballPaint);
+
+        canvas.drawRect(
+                exit.col * cellSize + (cellSize/10),
+                exit.row * cellSize + (cellSize/10),
+                (exit.col + 1) * cellSize - (cellSize/10),
+                (exit.row + 1) * cellSize - (cellSize/10),
+                exitPaint);
         invalidate();
+    }
+
+    private void checkExit() {
+        if (player == exit)
+            createMaze();
     }
 
     private class Cell {
