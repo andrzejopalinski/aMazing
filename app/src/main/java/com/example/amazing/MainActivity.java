@@ -8,23 +8,40 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-/*
     private SensorManager sensorManager;
-    public int x;
-    public int y;
-*/
+    private AccGameView accGameView = null;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GameView gameView = new GameView(this);
-        setContentView(gameView);
-/*
+        //GameView gameView = new GameView(this);
+        //setContentView(gameView);
+
+        accGameView = new AccGameView(this);
+        setContentView(accGameView);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);*/
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
-/*
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            accGameView.onSensorEvent(event);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -38,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.unregisterListener(this);
     }
 
-    @Override
+    /*@Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             GameView.onSensorEvent(event);
