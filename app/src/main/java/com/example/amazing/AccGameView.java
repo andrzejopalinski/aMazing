@@ -148,30 +148,30 @@ public class AccGameView extends View {
         player.col = player.col - (int) event.values[0];
         player.row = player.row + (int) event.values[1];
 
-        if(player.col <= cells[0][0].col + radius + Wall_Thickness){
-            player.col = cells[0][0].col + radius + Wall_Thickness;
+        if(player.col <= radius){ //ogranicza z lewej
+            player.col = radius;
         }
-        if(player.col >= width - radius){
-            player.col = width - radius;
+        if(player.col >= (COLS * cellSize) - radius){ //ogranicza z prawej
+            player.col = (int) ((COLS * cellSize) - radius);
         }
 
         if(player.row <= radius){
             player.row = radius;
         }
-        if(player.row >= height - radius){
-            player.row = height - radius;
+        if(player.row >= (ROWS * cellSize) - radius){
+            player.row = (int) ((ROWS * cellSize) - radius);
         }
 
-        for (int x = 0; x < COLS; x++) {
+        /*for (int x = 0; x < COLS; x++) {
             for (int y = 0; y < ROWS; y++) {
-                if(player.col == cells[x][y].col - radius){
-                    player.col = cells[x][y].col - radius;
+                if(player.col == cells[x][y].col){
+                    player.col = cells[x][y].col;
                 }
-                if(player.row == cells[x][y].row - radius){
-                    player.row = cells[x][y].row - radius;
+                if(player.row == cells[x][y].row){
+                    player.row = cells[x][y].row;
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -229,7 +229,7 @@ public class AccGameView extends View {
         }
 
 
-        canvas.drawCircle(player.col + (cellSize/2), player.row + (cellSize/2), radius, ballPaint);
+        canvas.drawCircle(player.col, player.row, radius, ballPaint);
 
         canvas.drawRect(
                 exit.col * cellSize + (cellSize/10),
