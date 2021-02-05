@@ -25,17 +25,12 @@ public class AccGameView extends View {
 
 
     private Paint ballPaint;
-    private int x, y;
-
     private static final int radius = 40;
 
     private int height, width;
 
     public AccGameView(Context context) {
         super(context);
-
-        x = 500;
-        y = 100;
 
         ballPaint = new Paint();
         ballPaint.setColor(Color.BLUE);
@@ -150,21 +145,21 @@ public class AccGameView extends View {
     }
 
     public void onSensorEvent(SensorEvent event){
-        x = x - (int) event.values[0];
-        y = y + (int) event.values[1];
+        player.col = player.col - (int) event.values[0];
+        player.row = player.row + (int) event.values[1];
 
-        if(x <= radius){
-            x = radius;
+        if(player.col <= radius){
+            player.col = radius;
         }
-        if(x >= width - radius){
-            x = width - radius;
+        if(player.col >= width - radius){
+            player.col = width - radius;
         }
 
-        if(y <= radius){
-            y = radius;
+        if(player.row <= radius){
+            player.row = radius;
         }
-        if(y >= height - radius){
-            y = height - radius;
+        if(player.row >= height - radius){
+            player.row = height - radius;
         }
     }
 
@@ -223,7 +218,7 @@ public class AccGameView extends View {
         }
 
 
-        canvas.drawCircle(cells[0][0].col + (cellSize/2), cells[0][0].row + (cellSize/2), radius, ballPaint);
+        canvas.drawCircle(player.col + (cellSize/2), player.row + (cellSize/2), radius, ballPaint);
         invalidate();
     }
 
