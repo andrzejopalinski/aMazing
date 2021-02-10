@@ -194,11 +194,6 @@ public class GameView extends View {
 
         float margin = cellSize / 10;
 
-        /*canvas.drawCircle(player.col + (cellSize / 2),
-                player.row + (cellSize / 2),
-                cellSize / 2 - (margin),
-                playerPaint);*/
-
         canvas.drawRect(
                 player.col * cellSize + margin,
                 player.row * cellSize + margin,

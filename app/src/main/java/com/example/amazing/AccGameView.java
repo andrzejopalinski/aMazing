@@ -22,8 +22,6 @@ public class AccGameView extends View {
     private Paint wallPaint, exitPaint;
     private Random random;
 
-
-
     private Paint ballPaint;
     private static int radius;
 
@@ -48,11 +46,14 @@ public class AccGameView extends View {
 
     }
 
-    public void onSensorEvent(SensorEvent event){
-        radius = (int)cellSize/2;
-       /* px = ((player.col+1)*cellSize/2);
-        py = ((player.row+1)*cellSize/2);*/
+    public void onSensorEvent(SensorEvent event) {
+        radius = (int) cellSize*4/10;
 
+       float dx = event.values[0];
+       float dy = event.values[1];
+        /*while (cells[player.col][player.row].bottomWall==true) { //ogranicza jeśli ściana z dołu
+            player.row = player.row + (int) event.values[1];
+        }*/
         player.col = player.col - (int) event.values[0];
         player.row = player.row + (int) event.values[1];
 
@@ -64,10 +65,10 @@ public class AccGameView extends View {
         }
 
         if (player.row <= radius) { //ogranicza z góry
-            player.row  = radius;
+            player.row = radius;
         }
-        if (player.row  >= (ROWS * cellSize) - radius) { //ogranicza z dołu
-            player.row  = (int) ((ROWS * cellSize) - radius);
+        if (player.row >= (ROWS * cellSize) - radius) { //ogranicza z dołu
+            player.row = (int) ((ROWS * cellSize) - radius);
         }
         /*if ((player.col <= radius || player.leftWall== true)) { //ogranicza z lewej
             player.col = player.col - radius;
@@ -78,10 +79,8 @@ public class AccGameView extends View {
 
         if ((player.row <= radius)||player.topWall==true) { //ogranicza z góry
             player.row = player.row - radius;
-        }
-        if (((player.row >= (ROWS * cellSize) - radius)|| player.bottomWall == true)) { //ogranicza z dołu
-            player.row = player.row + radius;
         }*/
+
 
 
         /*for (int x = 0; x < COLS; x++) {
@@ -149,14 +148,13 @@ public class AccGameView extends View {
             }
         }
 
-
         canvas.drawCircle(player.col, player.row, radius, ballPaint);
 
         canvas.drawRect(
-                exit.col * cellSize + (cellSize/10),
-                exit.row * cellSize + (cellSize/10),
-                (exit.col + 1) * cellSize - (cellSize/10),
-                (exit.row + 1) * cellSize - (cellSize/10),
+                exit.col * cellSize + (cellSize / 10),
+                exit.row * cellSize + (cellSize / 10),
+                (exit.col + 1) * cellSize - (cellSize / 10),
+                (exit.row + 1) * cellSize - (cellSize / 10),
                 exitPaint);
         invalidate();
     }
@@ -181,12 +179,13 @@ public class AccGameView extends View {
             this.row = row;
         }
     }
-    private Cell getNeighbour(Cell cell){
+
+    private Cell getNeighbour(Cell cell) {
         ArrayList<Cell> neighbours = new ArrayList<Cell>();
 
         //left
-        if(cell.col > 0)
-            if(!cells[cell.col - 1][cell.row].visited)
+        if (cell.col > 0)
+            if (!cells[cell.col - 1][cell.row].visited)
                 neighbours.add(cells[cell.col - 1][cell.row]);
 
         //right cell
@@ -264,8 +263,6 @@ public class AccGameView extends View {
                 current = stack.pop();
         } while (!stack.empty());
     }
-
-
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
