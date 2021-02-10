@@ -25,7 +25,7 @@ public class AccGameView extends View {
 
 
     private Paint ballPaint;
-    private static final int radius = 40;
+    private static int radius;
 
     private int height, width;
 
@@ -33,9 +33,7 @@ public class AccGameView extends View {
         super(context);
 
         ballPaint = new Paint();
-        ballPaint.setColor(Color.BLUE);
-
-
+        ballPaint.setColor(Color.YELLOW);
 
         wallPaint = new Paint();
         wallPaint.setColor(Color.BLACK);
@@ -50,7 +48,139 @@ public class AccGameView extends View {
 
     }
 
+    public void onSensorEvent(SensorEvent event){
+        radius = (int)cellSize/2;
+       /* px = ((player.col+1)*cellSize/2);
+        py = ((player.row+1)*cellSize/2);*/
 
+        player.col = player.col - (int) event.values[0];
+        player.row = player.row + (int) event.values[1];
+
+        if (player.col <= radius) { //ogranicza z lewej
+            player.col = radius;
+        }
+        if (player.col >= (COLS * cellSize) - radius) { //ogranicza z prawej
+            player.col = (int) ((COLS * cellSize) - radius);
+        }
+
+        if (player.row <= radius) { //ogranicza z góry
+            player.row  = radius;
+        }
+        if (player.row  >= (ROWS * cellSize) - radius) { //ogranicza z dołu
+            player.row  = (int) ((ROWS * cellSize) - radius);
+        }
+        /*if ((player.col <= radius || player.leftWall== true)) { //ogranicza z lewej
+            player.col = player.col - radius;
+        }
+        if ((player.col >= (COLS * cellSize) - radius)||player.rightWall==true) { //ogranicza z prawej
+            player.col = player.col + radius;
+        }
+
+        if ((player.row <= radius)||player.topWall==true) { //ogranicza z góry
+            player.row = player.row - radius;
+        }
+        if (((player.row >= (ROWS * cellSize) - radius)|| player.bottomWall == true)) { //ogranicza z dołu
+            player.row = player.row + radius;
+        }*/
+
+
+        /*for (int x = 0; x < COLS; x++) {
+            for (int y = 0; y < ROWS; y++) {
+                if(player.col == cells[x][y].col){
+                    player.col = cells[x][y].col;
+                }
+                if(player.row == cells[x][y].row){
+                    player.row = cells[x][y].row;
+                }
+            }
+        }*/
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.drawColor(Color.MAGENTA); //yellow
+
+        if (width / height < COLS / ROWS) {
+            cellSize = width / (COLS + 1);
+        } else {
+            cellSize = height / (ROWS + 4);
+        }
+
+        hMargin = (width - (COLS * (height / (ROWS + 4)))) / 2;
+        vMargin = (height - (ROWS * (height / (ROWS + 4)))) / 2;
+        canvas.translate(hMargin, vMargin);
+
+        for (int x = 0; x < COLS; x++) {
+            for (int y = 0; y < ROWS; y++) {
+                if (cells[x][y].topWall)
+                    canvas.drawLine(
+                            x * cellSize,
+                            y * cellSize,
+                            (x + 1) * cellSize,
+                            y * cellSize,
+                            wallPaint);
+
+                if (cells[x][y].leftWall)
+                    canvas.drawLine(
+                            x * cellSize,
+                            y * cellSize,
+                            x * cellSize,
+                            (y + 1) * cellSize,
+                            wallPaint);
+
+                if (cells[x][y].rightWall)
+                    canvas.drawLine(
+                            (x + 1) * cellSize,
+                            y * cellSize,
+                            (x + 1) * cellSize,
+                            (y + 1) * cellSize,
+                            wallPaint);
+
+                if (cells[x][y].bottomWall)
+                    canvas.drawLine(
+                            x * cellSize,
+                            (y + 1) * cellSize,
+                            (x + 1) * cellSize,
+                            (y + 1) * cellSize,
+                            wallPaint);
+
+            }
+        }
+
+
+        canvas.drawCircle(player.col, player.row, radius, ballPaint);
+
+        canvas.drawRect(
+                exit.col * cellSize + (cellSize/10),
+                exit.row * cellSize + (cellSize/10),
+                (exit.col + 1) * cellSize - (cellSize/10),
+                (exit.row + 1) * cellSize - (cellSize/10),
+                exitPaint);
+        invalidate();
+    }
+
+    private void checkExit() {
+        if (player == exit)
+            createMaze();
+    }
+
+    private class Cell {
+        boolean
+                topWall = true,
+                leftWall = true,
+                bottomWall = true,
+                rightWall = true,
+                visited = false;
+
+        int col, row;
+
+        public Cell(int col, int row) {
+            this.col = col;
+            this.row = row;
+        }
+    }
     private Cell getNeighbour(Cell cell){
         ArrayList<Cell> neighbours = new ArrayList<Cell>();
 
@@ -142,122 +272,5 @@ public class AccGameView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         height = h;
         width = w;
-    }
-
-    public void onSensorEvent(SensorEvent event){
-        player.col = player.col - (int) event.values[0];
-        player.row = player.row + (int) event.values[1];
-
-        if(player.col <= radius){ //ogranicza z lewej
-            player.col = radius;
-        }
-        if(player.col >= (COLS * cellSize) - radius){ //ogranicza z prawej
-            player.col = (int) ((COLS * cellSize) - radius);
-        }
-
-        if(player.row <= radius){
-            player.row = radius;
-        }
-        if(player.row >= (ROWS * cellSize) - radius){
-            player.row = (int) ((ROWS * cellSize) - radius);
-        }
-
-        /*for (int x = 0; x < COLS; x++) {
-            for (int y = 0; y < ROWS; y++) {
-                if(player.col == cells[x][y].col){
-                    player.col = cells[x][y].col;
-                }
-                if(player.row == cells[x][y].row){
-                    player.row = cells[x][y].row;
-                }
-            }
-        }*/
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        canvas.drawColor(-256); //yellow
-
-        if (width / height < COLS / ROWS) {
-            cellSize = width / (COLS + 1);
-        } else {
-            cellSize = height / (ROWS + 4);
-        }
-
-        hMargin = (width - (COLS * (height / (ROWS + 4)))) / 2;
-        vMargin = (height - (ROWS * (height / (ROWS + 4)))) / 2;
-
-        canvas.translate(hMargin, vMargin);
-
-        for (int x = 0; x < COLS; x++) {
-            for (int y = 0; y < ROWS; y++) {
-                if (cells[x][y].topWall)
-                    canvas.drawLine(
-                            x * cellSize,
-                            y * cellSize,
-                            (x + 1) * cellSize,
-                            y * cellSize,
-                            wallPaint);
-
-                if (cells[x][y].leftWall)
-                    canvas.drawLine(
-                            x * cellSize,
-                            y * cellSize,
-                            x * cellSize,
-                            (y + 1) * cellSize,
-                            wallPaint);
-
-                if (cells[x][y].rightWall)
-                    canvas.drawLine(
-                            (x + 1) * cellSize,
-                            y * cellSize,
-                            (x + 1) * cellSize,
-                            (y + 1) * cellSize,
-                            wallPaint);
-
-                if (cells[x][y].bottomWall)
-                    canvas.drawLine(
-                            x * cellSize,
-                            (y + 1) * cellSize,
-                            (x + 1) * cellSize,
-                            (y + 1) * cellSize,
-                            wallPaint);
-
-            }
-        }
-
-
-        canvas.drawCircle(player.col, player.row, radius, ballPaint);
-
-        canvas.drawRect(
-                exit.col * cellSize + (cellSize/10),
-                exit.row * cellSize + (cellSize/10),
-                (exit.col + 1) * cellSize - (cellSize/10),
-                (exit.row + 1) * cellSize - (cellSize/10),
-                exitPaint);
-        invalidate();
-    }
-
-    private void checkExit() {
-        if (player == exit)
-            createMaze();
-    }
-
-    private class Cell {
-        boolean
-                topWall = true,
-                leftWall = true,
-                bottomWall = true,
-                rightWall = true,
-                visited = false;
-
-        int col, row;
-
-        public Cell(int col, int row) {
-            this.col = col;
-            this.row = row;
-        }
     }
 }
