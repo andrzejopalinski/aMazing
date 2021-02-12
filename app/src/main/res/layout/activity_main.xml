@@ -12,10 +12,10 @@
         android:id="@+id/titleTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20sp"
         android:gravity="center"
-        android:text="Labyrinth"
-        android:textSize="40dp"
-        android:layout_margin="20dp"/>
+        android:text="@string/title"
+        android:textSize="40sp" />
 
     <Button
         android:id="@+id/button"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:onClick="onBtnAcc"
-        android:text="Accelerator game" />
+        android:text="@string/btnAcc" />
 
     <Button
         android:id="@+id/button2"
@@ -31,5 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:onClick="onBtnTouch"
-        android:text="Touchy game" />
+        android:text="@string/btnTouch" />
+
 </LinearLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">aMazinG</string>
+    <string name="btnAcc">Accelerator game</string>
+    <string name="btnTouch">Touchy game</string>
+    <string name="title">Labyrinth</string>
+
 </resources>

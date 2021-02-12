@@ -29,8 +29,6 @@ public class GameView extends View {
     private Paint wallPaint, playerPaint, exitPaint;
     private Random random;
 
-
-
     public GameView(Context context) {
         super(context);
 

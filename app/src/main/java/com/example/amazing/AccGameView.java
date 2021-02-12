@@ -16,7 +16,7 @@ public class AccGameView extends View {
 
     private Cell[][] cells;
     private Cell player, exit;
-    private static final int COLS = 5, ROWS = 10;
+    private static final int COLS = 7, ROWS = 7;
     private static final int Wall_Thickness = 5;
     private float cellSize, hMargin, vMargin;
     private Paint wallPaint, exitPaint;
