@@ -2,73 +2,28 @@ package com.example.amazing;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
-
-    private SensorManager sensorManager;
-    private AccGameView accGameView = null;
-
+public class MainActivity extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //GameView gameView = new GameView(this);
-        //setContentView(gameView);
-
-        accGameView = new AccGameView(this);
-        setContentView(accGameView);
-
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        setContentView(R.layout.activity_main);
     }
 
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            accGameView.onSensorEvent(event);
-        }
+    public void onBtnAcc(View view) {
+        Intent intent = new Intent(this, Acc.class);
+        this.startActivity(intent);
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    public void onBtnTouch(View view) {
+        Intent intent = new Intent(this, Touch.class);
+        this.startActivity(intent);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_GAME);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
-    }
-
-    /*@Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            GameView.onSensorEvent(event);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
-
-    public void onSensorEvent(SensorEvent event) {
-
-        x = x - (int) event.values[0];
-        y = y + (int) event.values[1];
-    }*/
 }
